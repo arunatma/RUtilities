@@ -2,18 +2,20 @@ Sys.time()
 library(data.table)
 
 baseTable <- read.csv("teams.csv", stringsAsFactors=FALSE)
-teams <- baseTable$Team
-basePts <- baseTable$Points
-nrr <- baseTable$NRR
+
+# Changing the names of the columns to the desired variable names.
+# Name change done, column name change in Excel will not affect code
+names(baseTable) <- c("teams", "basePts", "nrr")
+list2env(baseTable, .GlobalEnv)     # creation of column variables in Env
 
 tally <- basePts + nrr 
 names(tally) <- teams 
 
 # Update the result after every match in schedule.csv
 schedule <- read.csv("schedule.csv", stringsAsFactors=FALSE)
-hosts <- schedule$Host
-visitors <- schedule$Visitor
-results <- Filter(function(x) x != "", schedule$Result)
+names(schedule) <- c("hosts", "visitors", "allResults") 
+list2env(schedule, .GlobalEnv)      # creation of column variables in Env
+results <- Filter(function(x) x != "", allResults)
 
 remGames <- seq(hosts)[-seq(results)]
 curHosts <- hosts[remGames]
