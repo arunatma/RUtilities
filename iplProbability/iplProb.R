@@ -1,4 +1,3 @@
-Sys.time()
 library(data.table)
 
 baseTable <- read.csv("teams.csv", stringsAsFactors=FALSE)
@@ -32,7 +31,6 @@ getPoints <- function(x, val) { return(val * sapply(teams, getWins(x))) }
 resultPoints <- getPoints(results, 2)       # For each finished game
 noresultPoints <- getPoints(nrTeams, 1)     # For each game with no result
 curTally <- tally + resultPoints + noresultPoints
-print(curTally)
 numRemGames <- length(remGames)
 numRoutes <- 2 ^ numRemGames
 addFn <- function(x){return(eval(parse(text=paste0(x, "<<-", x, "+1"))))}
@@ -53,5 +51,3 @@ for (i in (seq(numRoutes)-1)){
 
 probTable <- data.table(Team = teams, Probability = 
     sapply(teams, function(x) eval(parse(text=paste(x)))/numRoutes))
-
-Sys.time()
